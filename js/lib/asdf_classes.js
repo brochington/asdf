@@ -4,16 +4,13 @@ console.log("asdf_classes");
 	var ns = {},
 		asdf = window.asdf;
 
-
-	ns.PassFunction = function(value){
-		console.log("PassFunction Factory");
-		console.log(value);
+	ns.LiveVariable = function(varName, value){
+		
 		var tempFunction = new Function();
-		tempFunction = function(){return this.internal[value.name]};
-		tempFunction.metaID = value.name;
-		tempFunction.metaValue = value.object.internal[value.name];		
-
-		return tempFunction();
+		tempFunction = function(){ return this.internal[varName].metaValue;}
+		tempFunction.metaID = varName;
+		tempFunction.metaValue = value;
+		return tempFunction;
 	}
 
 	asdf.classes = ns;

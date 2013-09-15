@@ -7,34 +7,28 @@ console.log("asdf_pubsub");
 		asdf = window.asdf;
 
 
-	ns.addToTopics = function(data, callback){
-		console.log("addToTopics");
-		console.log(data);
+	ns.addToTopics = function(name, callback){
 
-		topics[data.name.toString()] = [];
+		topics[name] = [];
 
 		if(callback) { callback(); };
 	}
 
-	ns.publish = function(name, passedThis, passedValue){
-		console.log("publish");
+	ns.publish = function(name, passedThis, passedVal){
+		var subscribers = topics[name];
+		var subLength = subscribers.length;
 
-		subscribers = topics[name],
-		subscribersLength = subscribers.length;
-
-		for(var i = 0; i < subscribersLength; i ++){
-			console.log(subscribers[i]);
-			subscribers[i].func(subscribers[i].name, passedThis, passedValue);
+		for(var i = 0; i < subLength; i++){
+			subscribers[i].func(subscribers[i].name, passedThis, passedVal);
 		}
 	}
 
-	ns.subscribe = function(name, passedThis, passedValue, func){
-		console.log("subscribe");
+	ns.subscribe = function(val, name, func){
 		var token = ++uid;
 
-		topics[passedValue.metaID].push({
+		topics[val.metaID].push({
 			token : token,
-			func : func, 
+			func : func,
 			name : name
 		});
 
@@ -46,13 +40,12 @@ console.log("asdf_pubsub");
 	}
 
 	ns.updateSubscribers = function(name, passedThis, passedValue){
-		console.log("updateSubscribers");
-		console.log(name, passedThis, passedValue);
 
 		passedThis.internal[name].metaValue = passedValue;
 	}
 
 	ns.getTopics = function(){
+
 		return topics;
 	}
 
