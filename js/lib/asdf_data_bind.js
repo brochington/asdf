@@ -20,12 +20,15 @@ console.log("data bind");
 						return this.internal[name];
 					},
 					set: function(val){
+						var params = {name : name };
 						if(val.metaID){
 							this.internal[name].metaValue = val.metaValue;
-							ps.subscribe(val, name, ps.updateSubscribers);
+							
+							ps.subscribe(val, params, ps.updateSubscribers);
 							ps.publish(name, this, val);
 						} else {
 							this.internal[name].metaValue = val;
+							
 							ps.publish(name, this, val);
 
 						}
@@ -35,6 +38,7 @@ console.log("data bind");
 				return newFunctionObject;
 			}
 		}
+		Object.observe(obj.internal, ns.observeDataBindInternal);
 		return obj
 	}
 
