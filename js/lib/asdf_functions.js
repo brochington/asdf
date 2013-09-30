@@ -1,12 +1,15 @@
-console.log("asdf functions");
+// console.log("asdf functions");
 
 (function (window, undefined, ns){
+	"use strict";
 	var ns = {},
 		asdf = window.asdf,
 		ps = asdf.pubsub;
 
 		/* Object.observe callback functions */
 		ns.divNodeObjectChange = function(changeObj){
+			console.log("divNodeObjectChange");
+			console.log("changeObj", changeObj);
 
 			for(var i = 0; i < changeObj.length; i++){
 				var prop = changeObj[i].name;
@@ -30,6 +33,16 @@ console.log("asdf functions");
 		ns.styleObjectChange = function(changeObj){
 			console.log("styleObjectChange");
 			console.log(changeObj);
+		}
+
+		ns.startMonitoringLiveVars = function(){
+			// console.log("startMonitoringLiveVars");
+			asdf.monitorLiveVarFlag = true;
+		}
+
+		ns.stopMonitoringLiveVars = function(){
+			// console.log("stopMonitoringLiveVars");
+			asdf.monitorLiveVarFlag = false;
 		}
 
 		asdf.functions = ns;

@@ -1,6 +1,7 @@
-console.log("asdf_pubsub");
+// console.log("asdf_pubsub");
 
 (function (window, undefined, ns ){
+	"use strict";
 	var ns = {},
 		topics = {},
 		nodeTopics = {},
@@ -17,6 +18,7 @@ console.log("asdf_pubsub");
 	}
 
 	ns.publish = function(name, passedThis, passedVal){
+		console.log("publish");
 		var subscribers = topics[name];
 		var subLength = subscribers.length;
 
@@ -40,11 +42,32 @@ console.log("asdf_pubsub");
 		return token;
 	}
 
-	ns.unsubscribe = function(){
-		
+	ns.unsubscribe = function(val, varToRemove){
+		var tempTopicsArr = topics[varToRemove],
+			tempArr = [];
+
+		tempTopicsArr.forEach(function(v,i,arr){
+			if(v.name !== val.metaID){
+				tempArr.push(v);
+			};
+		});
+
+		topics[varToRemove] = tempArr;
+		console.log(tempTopicsArr);
+	}
+
+	ns.unsubscribeAll = function(val) {
+		for(var key in topics){
+			topics[key].forEach(function (v, i, arr){
+				if(v.name == val.metaID){
+					topics[key].splice([i], 1);
+				}
+			})
+		}
 	}
 
 	ns.updateSubscribers = function(params, passedThis, passedValue){
+		console.log("updateSubscribers");
 		var name = params.name;
 		passedThis.internal[name].metaValue = passedValue;
 	}

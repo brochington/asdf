@@ -1,6 +1,7 @@
-console.log("asdf_dom");
+// console.log("asdf_dom");
 
 (function (window, undefined, ns){
+	"use strict";
 	var ns = {},
 		asdf = window.asdf,
 		ps = asdf.pubsub,
@@ -24,7 +25,7 @@ console.log("asdf_dom");
 					if(tagName === 'INPUT'){
 						obj[id] = asdfClass.inputNodeObject(bodyDOM[i]);
 					} else if (tagName === 'DIV'){
-						obj[id] = asdfClass.divNodeObject(bodyDOM[i]);
+						obj[id] = asdfClass.makeDivNodeObject(bodyDOM[i]);
 					} else {
 						obj[id] = asdfClass.stdNodeObject(bodyDOM[i]);
 					}
@@ -35,7 +36,7 @@ console.log("asdf_dom");
 
 			return obj;
 		}
-
+		/*cleaning out script tags right now*/
 		ns.cleanDOMArr = function(data){
 			var arr = [];
 			var dataLength = data.length;

@@ -1,5 +1,5 @@
 
-	console.log("window is loaded");
+	// console.log("window is loaded");
 
 	var beginTime = Date.now();
 	var a = asdf.createDataBindObject();
@@ -14,20 +14,37 @@
 	a.newVar("color2", "solid black 6px");
 	a.newVar("bgd1", "blue");
 	a.newVar("bgd2", "green");
+	a.newVar("test1", "This is test1");
+	a.newVar("test2", "this is test 2");
+	a.newVar("test3", "This is your third test string");
+
+	a.test1 = a.test2;
+	a.test1 = a.test3;
 
 
+	// computed properties.
+	a.newVar("num1", 100);
+	a.newVar("num2", 50);
+	a.newVar("num3", function(){
+		var totalNum = a.num1() + a.num2();
+		return totalNum;
+	});
+
+	a.newVar("numToPx", function (value){
+		return value + "px";
+	}, 300);
 
 	d.test_div_1.width = "400px";
 	d.test_div_1.height = "150px";
 	d.test_div_1.border = a.color2;
-	d.test_div_1.backgroundColor = a.bgd1;
+	// d.test_div_1.backgroundColor = a.bgd1;
 
 	d.test_div_2.backgroundColor = a.bgd1;
 	d.test_div_2.border = a.color2;
 
-	window.setTimeout(function(){
-		a.color2 = "solid yellow 6px";
-	}, 1500);
+	// window.setTimeout(function(){
+	// 	a.color2 = "solid yellow 6px";
+	// }, 1500);
 	
 	/*
 	  Note: should be able to pass a live Var and have 
