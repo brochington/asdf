@@ -14,6 +14,7 @@
 			newVar : function(name, value, initVal){
 				// need to handle values that are meant to be computed properties
 				// differently.
+				// console.log("newVar", value);
 
 				var newFunctionObject = new asdfClass.LiveVariable(name, value, initVal);
 				this.internal[name] = newFunctionObject;
@@ -35,7 +36,12 @@
 							console.log(internalVal.metaFunctionArgVal);
 							if(internalVal.metaFunctionArgVal){
 								console.log("has argVal");
-								internalVal.metaValue = internalVal.metaFunction(internalVal.metaFunctionArgVal);	
+								if(internalVal.metaFunction){
+									internalVal.metaValue = internalVal.metaFunction(internalVal.metaFunctionArgVal);
+								} else if(internalVal.metaGetFunction){
+									console.log(internalVal.metaGetSetObject);
+									internalVal.metaValue = internalVal.metaGetFunction(internalVal.metaGetSetObject);
+								}
 							} else {
 								console.log("no argVal");
 								internalVal.metaValue = internalVal.metaFunction();	
@@ -71,6 +77,10 @@
 								console.log("set on var that has metaFunction");
 								this.internal[name].metaFunctionArgVal = val;
 								this.internal[name].metaValue = this.internal[name].metaFunction(val);
+							} else if(this.internal[name].metaSetFunction){
+								console.log("set on var that has metaSetFunction");
+								this.internal[name].metaFunctionArgVal = val;
+								this.internal[name].metaValue = this.internal[name].metaSetFunction(val,this.internal[name].metaGetSetObject);
 							} else {
 								this.internal[name].metaValue = val;
 							}

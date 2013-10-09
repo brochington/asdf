@@ -4,6 +4,9 @@
 	var beginTime = Date.now();
 	var a = asdf.createDataBindObject();
 	var d = asdf.createDOMObject();
+	var startTime = 0;
+	var endTime = 0;
+	var keysArr = [];
 
 	var asdfClass = asdf.classes;
 
@@ -34,6 +37,28 @@
 		return value + "px";
 	}, 300);
 
+
+	// if you want a value to stay with the object, then add it
+	// as another property in the object that you feed the a.newVar().
+	// i.e. internalValue1 in this case.
+	// put a object.observe on the internal object, to be able to notify 
+	// others of changes. 
+	a.newVar("testGetSet", {
+		internalValue1 : 4321,
+		monitor: "internalValue1",
+		get: function(internal){
+			console.log("testGetSet get");
+			console.log(internal);
+			return internal.internalValue1;
+		},
+		set: function(setVal, internal){
+			console.log("testGetSet set");
+			console.log(setVal);
+			internal.internalValue1 = setVal;
+			// return internal;
+		}
+	})
+
 	d.test_div_1.width = "400px";
 	d.test_div_1.height = "150px";
 	d.test_div_1.border = a.color2;
@@ -41,6 +66,34 @@
 
 	d.test_div_2.backgroundColor = a.bgd1;
 	d.test_div_2.border = a.color2;
+
+	//benchmark to test speed of for in vs object.keys and trad loop;
+
+	// var testObject = {};
+	// var testObject2 = {};
+	// for(var i = 0; i < 1000000; i++){
+	// 	testObject[i] = Math.floor((Math.random()*100000)+1);
+	// }
+
+	// console.log(testObject);
+
+	// startTime = Date.now();
+	// console.log(startTime);
+
+	// // for(var key in testObject){
+	// // 	testObject2[key] = testObject[key] + "asdasfa";
+	// // 	// console.log(key);
+	// // }
+
+
+
+	// endTime = Date.now();
+	// console.log(endTime);
+
+	// console.log("difference: ", endTime - startTime);
+
+
+
 
 	// window.setTimeout(function(){
 	// 	a.color2 = "solid yellow 6px";

@@ -13,11 +13,8 @@
 		tempFunction.metaID = varName;
 		tempFunction.metaValue = value;
 
-		if(typeof value !== 'function'){
-			// needed?
-		};
 		if(typeof value == 'function'){
-			console.log("value in newVar is a function");
+			console.log("value in newVar is a function", value);
 			tempFunction.metaFunction = value;
 			tempFunction.metaFunctionArgVal = initVal;
 			console.log(tempFunction.metaFunctionArgVal);
@@ -28,6 +25,31 @@
 				ps.subscribe(v, {name: varName}, ps.updateSubscribers);
 			});
 			functions.stopMonitoringLiveVars();
+		} else if(typeof value !== 'function'){
+			console.log("not being passed a function.");
+
+			// keeping handling of computed properties with get/set separate for now. 
+			if(value.hasOwnProperty('get') && value.hasOwnProperty('set')){
+				console.log("looks like a get/set object...");
+				tempFunction.metaGetSetObject = {};
+
+				for(var key in value){
+					if(key !== 'get' && key !== 'set'){
+						tempFunction.metaGetSetObject[key] = value[key];
+					}
+				}
+				tempFunction.metaGetFunction = value.get;
+				tempFunction.metaSetFunction = value.set;
+				tempFunction.metaFunctionArgVal = initVal;
+
+				functions.startMonitoringLiveVars();
+				tempFunction.metaValue = value.get(tempFunction.metaGetSetObject);
+				asdf.monitorLiveVarArr.forEach(function (v, i, arr){
+					ps.subscribe(v, {name: varName}, ps.updateSubscribers);
+				});
+				functions.stopMonitoringLiveVars();
+
+			}
 		};
 		
 

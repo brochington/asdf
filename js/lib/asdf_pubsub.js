@@ -28,7 +28,7 @@
 	}
 
 	ns.subscribe = function(val, params, func){
-
+		// console.log("subscribe");
 		var token = ++uid;
 
 		topics[val.metaID].push({
@@ -43,6 +43,7 @@
 	}
 
 	ns.unsubscribe = function(val, varToRemove){
+		// console.log("unsubscribe");
 		var tempTopicsArr = topics[varToRemove],
 			tempArr = [];
 
@@ -70,6 +71,9 @@
 		console.log("updateSubscribers");
 		var name = params.name;
 		passedThis.internal[name].metaValue = passedValue;
+		if(passedThis.internal[name].metaFunctionArgVal){
+			passedThis.internal[name].metaFunctionArgVal = passedValue;	
+		};
 	}
 
 	ns.updateDivNodeCSS = function(params, passedThis, passedValue){

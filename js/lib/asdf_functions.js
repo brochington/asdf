@@ -43,6 +43,8 @@
 		ns.stopMonitoringLiveVars = function(){
 			// console.log("stopMonitoringLiveVars");
 			asdf.monitorLiveVarFlag = false;
+			//clear array to prevent wrong subscriptions. 
+			asdf.monitorLiveVarArr = [];
 		}
 
 		asdf.functions = ns;
