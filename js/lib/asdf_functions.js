@@ -1,12 +1,9 @@
-// console.log("asdf functions");
-
 (function (window, undefined, ns){
 	"use strict";
 	var ns = {},
 		asdf = window.asdf,
 		ps = asdf.pubsub;
 
-		/* Object.observe callback functions */
 		ns.divNodeObjectChange = function(changeObj){
 			console.log("divNodeObjectChange");
 			console.log("changeObj", changeObj);

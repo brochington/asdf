@@ -7,22 +7,19 @@
 		ps = asdf.pubsub,
 		asdfClass = asdf.classes;
 
-	/* Contructor function for the data binding object*/
 	asdf.createDataBindObject = function(data){
 		var obj = {
 			internal : {},
 			newVar : function(name, value, initVal){
-				// need to handle values that are meant to be computed properties
-				// differently.
-				// console.log("newVar", value);
-
 				var newFunctionObject = new asdfClass.LiveVariable(name, value, initVal);
+
 				this.internal[name] = newFunctionObject;
 				ps.addToTopics(name);
 
 				Object.defineProperty(this, name, {
 					get: function(){
-						var internalVal = this.internal[name];
+						console.log("gettin'");
+						var internalVal = this.internal[name];						
 
 						// notify something that it is being "gotten",
 						// needed for calculating and updating computed functions.
@@ -31,30 +28,34 @@
 						}
 
 						if(internalVal.hasOwnProperty('metaFunction')){
-							console.log("has metaFunction");
-							console.log("metaValue", internalVal.metaValue);
-							console.log(internalVal.metaFunctionArgVal);
+
 							if(internalVal.metaFunctionArgVal){
-								console.log("has argVal");
+
 								if(internalVal.metaFunction){
 									internalVal.metaValue = internalVal.metaFunction(internalVal.metaFunctionArgVal);
 								} else if(internalVal.metaGetFunction){
-									console.log(internalVal.metaGetSetObject);
+
 									internalVal.metaValue = internalVal.metaGetFunction(internalVal.metaGetSetObject);
 								}
 							} else {
-								console.log("no argVal");
-								internalVal.metaValue = internalVal.metaFunction();	
-							}
-							
 
+								internalVal.metaValue = internalVal.metaFunction();	
+							}							
 						}
+
+						/*TODO: add special handling for accessor objects*/
+						if(internalVal.metaGetSetObject){
+							console.log("gettin' from a getter setter, dude.");
+							internalVal.metaValue = internalVal.metaGetFunction(internalVal.metaGetSetObject);
+						}
+
 						return internalVal;
 					},
 					set: function(val){
+						console.log("settin'");
 						var params = {name : name };
 						if(typeof val == 'function' && val.metaID){
-							console.log("LiveVariable function");
+							// console.log("LiveVariable function");
 							if(this.internal[name].metaFunction){
 								this.internal[name].metaFunctionArgVal = val.metaValue;
 								this.internal[name].metaValue = this.internal[name].metaFunction(val.metaValue);
@@ -65,7 +66,7 @@
 							ps.publish(name, this, val);
 						} else if(typeof val == 'function' && !val.metaID){
 							//TODO: figure out how we want to handle normal functions.
-							console.log("regular function");
+							// console.log("regular function");
 							if(this.internal[name].metaFunction){
 
 							} else {
@@ -74,11 +75,11 @@
 							ps.publish(name, this, val);
 						} else {
 							if(this.internal[name].metaFunction){
-								console.log("set on var that has metaFunction");
+								// console.log("set on var that has metaFunction");
 								this.internal[name].metaFunctionArgVal = val;
 								this.internal[name].metaValue = this.internal[name].metaFunction(val);
 							} else if(this.internal[name].metaSetFunction){
-								console.log("set on var that has metaSetFunction");
+								// console.log("set on var that has metaSetFunction");
 								this.internal[name].metaFunctionArgVal = val;
 								this.internal[name].metaValue = this.internal[name].metaSetFunction(val,this.internal[name].metaGetSetObject);
 							} else {
@@ -92,7 +93,6 @@
 				return newFunctionObject;
 			}
 		}
-		Object.observe(obj.internal, ns.observeDataBindInternal);// why is this an issue?
 		return obj;
 	}
 
@@ -105,10 +105,10 @@
 
 			switch (v.type){
 				case 'new':
-					console.log("new property in internal");
+					// console.log("new property in internal");
 					break;
 				case 'updated':
-					console.log("updated property in internal");
+					// console.log("updated property in internal");
 					ps.testPublish();
 					break;
 
