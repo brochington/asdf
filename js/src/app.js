@@ -118,7 +118,7 @@ just using the value stored in them, but the function is smart enough
 to know that it contains these liveVariables, and if either of them
 are updated, then the computed property will reevaluate. If you would
 like to see this in action, try putting a console.log() within the 
-liveVariable function, and then updating thee either a.num1 or a.num2 
+liveVariable function, and then updating either a.num1 or a.num2 
 as explained above in the browser's console.
 */
 
@@ -139,7 +139,7 @@ a.numToPx = 1234;
 console.log("Updated numToPx value is: ", a.numToPx());
 
 /*
-  I'm messing around with getters/setters on liveVaraibles, though 
+  I'm messing around with getters/setters on liveVarables, though 
   this is an area that still might need some more design thought. 
 
   Some important notes on using liveVariables as getter/setter: 
@@ -159,21 +159,35 @@ console.log("Updated numToPx value is: ", a.numToPx());
 a.newVar("testGetSet", {
 	internalValue1 : 4321,
 	get: function(internal){
-		console.log("testGetSet get")
 		return internal.internalValue1;
 	},
 	set: function(setVal, internal){
-		console.log("testGetSet set: ", setVal );
 		internal.internalValue1 = setVal;
-		console.log("blah", internal.internalValue1);
 	}
 })
 
 /*
 Wondering what happened to that crazy DOM object thingy I was
-talking about in the beginning? 
+talking about in the beginning? Let's break it out.
 */
 
+// TODO: Make the following work!!
+// 1)
+// d.test_div_1.innerHTML = "<p>This is some text within test_div_1!</p>";
+
+// 2)
+// d.test_div_1.height = "300px";
+// 3)
+a.newVar("computedBorder", function (val){
+	 return "solid " + val.color + " " + val.px + "px";
+}, {color: "blue", px: 1 });
+
+
+// d.test_div_1.border = "solid yellow 2px";
+// 4)
+// d.test_div_2.css = {
+// 	border : a.computedBorder
+// }
 
 
 // d.test_div_1.width = "400px";

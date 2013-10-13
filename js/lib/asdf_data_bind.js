@@ -18,7 +18,6 @@
 
 				Object.defineProperty(this, name, {
 					get: function(){
-						console.log("gettin'");
 						var internalVal = this.internal[name];						
 
 						// notify something that it is being "gotten",
@@ -34,25 +33,21 @@
 								if(internalVal.metaFunction){
 									internalVal.metaValue = internalVal.metaFunction(internalVal.metaFunctionArgVal);
 								} else if(internalVal.metaGetFunction){
-
 									internalVal.metaValue = internalVal.metaGetFunction(internalVal.metaGetSetObject);
 								}
 							} else {
-
 								internalVal.metaValue = internalVal.metaFunction();	
 							}							
 						}
 
 						/*TODO: add special handling for accessor objects*/
 						if(internalVal.metaGetSetObject){
-							console.log("gettin' from a getter setter, dude.");
 							internalVal.metaValue = internalVal.metaGetFunction(internalVal.metaGetSetObject);
 						}
 
 						return internalVal;
 					},
 					set: function(val){
-						console.log("settin'");
 						var params = {name : name };
 						if(typeof val == 'function' && val.metaID){
 							// console.log("LiveVariable function");
@@ -89,8 +84,7 @@
 						}
 						
 					}
-				})
-				return newFunctionObject;
+				});
 			}
 		}
 		return obj;

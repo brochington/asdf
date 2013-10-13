@@ -1,5 +1,3 @@
-// console.log("asdf_classes");
-
 (function (window, undefined, ns){
 	"use strict";
 	var ns = {},
@@ -13,6 +11,7 @@
 	with stopFollowing() and stopFollowingAll as prototype
 	methods.
 	*/
+
 	ns.LiveVariable = function(varName, value, initVal){
 		var tempFunction = new Function();
 		tempFunction = function(){ return this.internal[varName].metaValue;}
@@ -36,7 +35,7 @@
 
 			// keeping handling of computed properties with get/set separate for now. 
 			if(value.hasOwnProperty('get') && value.hasOwnProperty('set')){
-				// console.log("looks like a get/set object...");
+				console.log("looks like a get/set object...");
 				tempFunction.metaGetSetObject = {};
 
 				for(var key in value){
@@ -84,8 +83,9 @@
 	ns.inputNodeObject = function(){
 	}
 
-	ns.InternalDOMObj = function(){
-		
+	ns.InternalDOMObj = function(data){
+		this.style = data.style;
+		this.originDOM = data;
 	}
 
 	/*DivNode contructor*/
