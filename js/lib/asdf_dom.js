@@ -32,8 +32,6 @@
 					} else {
 						// add more type of elements, or maybe a generic type.
 					};
-
-					// obj.internal[id] = bodyDOM[i];
 				};
 			};
 
@@ -76,10 +74,9 @@
 			var obj = new asdfClass.InternalDOMObj(bodyDOM),
 				keys = Object.keys(bodyDOM.style);
 
-			// I could use a for-in loop here, 
-			// but I'm wondering if this is faster. 
+			/*Adding CSS properties*/
 			keys.forEach(function (v, i, arr){
-				// var tempObj = new CSSPropFuncObj();
+
 				Object.defineProperty(obj, v, {
 					get: function(){
 						console.log("InternalDOMObj get");
@@ -88,13 +85,48 @@
 					set: function(val){
 						console.log("InternalDOMObj set");
 						bodyDOM.style[v] = val;
-
+						
 						//add handling of liveVariable objects here, so
 						// you can update pubsub correctly. look at newVar
 						// if you need help. 
 					}
 				});
 			});
+
+			/*Adding innerHTML property*/
+			Object.defineProperty(obj, "innerHTML", {
+				get: function(){
+					console.log("getting from innerHTML");
+					return bodyDOM.innerHTML;
+				},
+				set: function(val){
+					console.log("setting innerHTML");
+					bodyDOM.innerHTML = val;
+
+				}
+			});
+			/*Adding innerText property*/
+			Object.defineProperty(obj, "innerText", {
+				get: function(){
+					return bodyDOM.innerText;
+				},
+				set: function(val){
+					bodyDOM.innerText = val;
+				}
+			});
+			Object.defineProperty(obj, 'css', {
+				get: function(){
+					return bodyDOM.style; //maybe return someting cooler?
+				},
+				set: function(val){
+					console.log("setting css properties with an object");
+					for(var key in val){
+						if(bodyDOM.style.hasOwnProperty(key)){
+							bodyDOM.style[key] = val[key];
+						}
+					}
+				}
+			})
 
 			return obj;
 

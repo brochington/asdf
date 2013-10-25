@@ -18,7 +18,7 @@
 
 				Object.defineProperty(this, name, {
 					get: function(){
-						var internalVal = this.internal[name];						
+						var internalVal = this.internal[name];
 
 						// notify something that it is being "gotten",
 						// needed for calculating and updating computed functions.
@@ -48,37 +48,38 @@
 						return internalVal;
 					},
 					set: function(val){
-						var params = {name : name };
+						var params = {name : name },
+							internalVal = this.internal[name];
 						if(typeof val == 'function' && val.metaID){
 							// console.log("LiveVariable function");
-							if(this.internal[name].metaFunction){
-								this.internal[name].metaFunctionArgVal = val.metaValue;
-								this.internal[name].metaValue = this.internal[name].metaFunction(val.metaValue);
+							if(internalVal.metaFunction){
+								internalVal.metaFunctionArgVal = val.metaValue;
+								internalVal.metaValue = internalVal.metaFunction(val.metaValue);
 							} else {
-								this.internal[name].metaValue = val.metaValue;	
+								internalVal.metaValue = val.metaValue;	
 							}
 							ps.subscribe(val, params, ps.updateSubscribers);
 							ps.publish(name, this, val);
 						} else if(typeof val == 'function' && !val.metaID){
 							//TODO: figure out how we want to handle normal functions.
 							// console.log("regular function");
-							if(this.internal[name].metaFunction){
+							if(internalVal.metaFunction){
 
 							} else {
-								this.internal[name].metaValue = val;	
+								internalVal.metaValue = val;	
 							}
 							ps.publish(name, this, val);
 						} else {
-							if(this.internal[name].metaFunction){
+							if(internalVal.metaFunction){
 								// console.log("set on var that has metaFunction");
-								this.internal[name].metaFunctionArgVal = val;
-								this.internal[name].metaValue = this.internal[name].metaFunction(val);
-							} else if(this.internal[name].metaSetFunction){
+								internalVal.metaFunctionArgVal = val;
+								internalVal.metaValue = internalVal.metaFunction(val);
+							} else if(internalVal.metaSetFunction){
 								// console.log("set on var that has metaSetFunction");
-								this.internal[name].metaFunctionArgVal = val;
-								this.internal[name].metaValue = this.internal[name].metaSetFunction(val,this.internal[name].metaGetSetObject);
+								internalVal.metaFunctionArgVal = val;
+								internalVal.metaValue = internalVal.metaSetFunction(val,internalVal.metaGetSetObject);
 							} else {
-								this.internal[name].metaValue = val;
+								internalVal.metaValue = val;
 							}
 							ps.publish(name, this, val);
 						}

@@ -169,60 +169,46 @@ a.newVar("testGetSet", {
 /*
 Wondering what happened to that crazy DOM object thingy I was
 talking about in the beginning? Let's break it out.
+
+To start we can set innerHTML and innerText in a similar fashion
+as one might normally do with a DOM node. I need to implement 
+some sort of safe string system in innerHTML to prevent possible
+malicious code. 
 */
 
-// TODO: Make the following work!!
-// 1)
-// d.test_div_1.innerHTML = "<p>This is some text within test_div_1!</p>";
-
-// 2)
-// d.test_div_1.height = "300px";
-// 3)
-a.newVar("computedBorder", function (val){
-	 return "solid " + val.color + " " + val.px + "px";
-}, {color: "blue", px: 1 });
+d.test_div_1.innerHTML = "<i>This is some innerHTML within test_div_1!</i>";
+d.test_div_2.innerText = "and here is some innerText in test_div_2!";
 
 
-// d.test_div_1.border = "solid yellow 2px";
-// 4)
-// d.test_div_2.css = {
-// 	border : a.computedBorder
-// }
+/*
+You can also set specific css properties directly, like so:
+Note that for now you have to use the name that the css
+property is called in the DOM node, i.e borderRadius, not 
+border-radius.
+*/
 
+d.test_div_1.border = "solid green 12px";
+d.test_div_1.backgroundColor = "#123456";
+d.test_div_1.color = "white";
 
-// d.test_div_1.width = "400px";
-// d.test_div_1.height = "150px";
-// d.test_div_1.border = a.color2;
-// d.test_div_1.backgroundColor = a.bgd1;
+/*
+You may also pass an object of css key/value pairs to the 
+css attribute on the DOM object, like so:
+*/
 
-// d.test_div_2.backgroundColor = a.bgd1;
-// d.test_div_2.border = a.color2;
+d.test_div_2.css = {
+	border: "dashed 5px blue",
+	borderRadius: "20px",
+	padding: "10px"
+}
 
+/*
+The databinding to and from the DOM objects is not written yet, 
+as this has been a bit of a weekend project that I started mid
+September, but I plan to have it done very soon. I also am 
+planning on adding some awesome templating, event handling
+that is really simple to use, and anything else that I can 
+dream up in the future. 
 
-// d.test_div_1.width = a.testUpdate;
-
-
-// When the page first loads ASDF goes through and identifies
-// all the divs (and soon to be almost every element) with an
-// id and creates an associated object in an isolated namespace.
-// This sounds like it might be a memory nightmare, but so
-// far in my test I have found it to not actually be too bad. 
-
-// The next part of 
-
-// I wanted to be able to "connect" a piece of DOM to a
-// variable in javascript in a single line. I.E:
-
-// HTML: 
-// 	<div id="myDiv"></div>
-
-// JS: 
-// 	var myVar;
-
-// Say you would like the div's innerHTML, or maybe innerText
-// to be updated when ever the variable changes. All you would
-// need to write is:
-
-// myDiv = myVar;
-
-// That's essentialy your binding.
+Thanks for reading!
+*/
