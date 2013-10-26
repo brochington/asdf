@@ -212,3 +212,37 @@ dream up in the future.
 
 Thanks for reading!
 */
+
+
+/*
+I'm starting work on Ajax handlinng within ASDF, my idea is 
+to create a method on the liveVariable object just like I do
+with newVar(). 
+
+Maybe it will look something like this:
+
+a.newJsonVar("myJsonVar", {'maybe config object here'}, function (data){
+	// function that will process JSON once it's recieved?
+});
+
+example: 
+
+d.test_div_1 = a.myJsonVar; // This binds the output of whatever is ever returned
+							// by the function in the JSON liveVariable.
+
+a.myJsonVar = 
+
+
+
+
+
+
+
+*/
+
+
+
+
+
+
+

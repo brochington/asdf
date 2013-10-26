@@ -27,7 +27,7 @@
 						obj.internal[id] = ns.createInternalDOMObj(bodyDOM[i]);
 						obj = ns.addDivNodeProperty(obj, id);
 
-						console.log(obj.internal[id]);
+						// console.log(obj.internal[id]);
 
 					} else {
 						// add more type of elements, or maybe a generic type.
