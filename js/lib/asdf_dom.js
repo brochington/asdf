@@ -70,7 +70,7 @@
 		}
 
 		ns.createInternalDOMObj = function(bodyDOM){
-			// console.log("bodyDOM", bodyDOM.style);
+			// console.log("bodyDOM", [bodyDOM]);
 			var obj = new asdfClass.InternalDOMObj(bodyDOM),
 				keys = Object.keys(bodyDOM.style);
 
@@ -79,11 +79,11 @@
 
 				Object.defineProperty(obj, v, {
 					get: function(){
-						console.log("InternalDOMObj get");
+						// console.log("InternalDOMObj get");
 						return function(){ return bodyDOM.style[v]; };
 					},
 					set: function(val){
-						console.log("InternalDOMObj set");
+						// console.log("InternalDOMObj set");
 						bodyDOM.style[v] = val;
 						
 						//add handling of liveVariable objects here, so
@@ -96,13 +96,22 @@
 			/*Adding innerHTML property*/
 			Object.defineProperty(obj, "innerHTML", {
 				get: function(){
-					console.log("getting from innerHTML");
+					// console.log("getting from innerHTML");
 					return bodyDOM.innerHTML;
 				},
 				set: function(val){
-					console.log("setting innerHTML");
-					bodyDOM.innerHTML = val;
+					var params = {
+						id: bodyDOM.id,
+						name: bodyDOM.nodeName + "!" + bodyDOM.id
+					};
 
+					if(typeof val == 'function' && val.metaID){
+						// liveVariable function.
+						ps.subscribe(val, params, ps.updateDivNodeInnerHTML);
+						bodyDOM.innerHTML = val.metaValue;
+					} else {
+						bodyDOM.innerHTML = val;	
+					}
 				}
 			});
 			/*Adding innerText property*/
@@ -111,7 +120,20 @@
 					return bodyDOM.innerText;
 				},
 				set: function(val){
-					bodyDOM.innerText = val;
+					var params = {
+						id: bodyDOM.id,
+						name: bodyDOM.nodeName + "!" + bodyDOM.id
+					};
+
+					if(typeof val == 'function' && val.metaID){
+						// liveVariable function.
+						ps.subscribe(val, params, ps.updateDivNodeInnerText);
+						bodyDOM.innerText = val.metaValue;
+
+					} else {
+						bodyDOM.innerText = val;	
+					}
+					
 				}
 			});
 			Object.defineProperty(obj, 'css', {
@@ -119,7 +141,7 @@
 					return bodyDOM.style; //maybe return someting cooler?
 				},
 				set: function(val){
-					console.log("setting css properties with an object");
+					// console.log("setting css properties with an object");
 					for(var key in val){
 						if(bodyDOM.style.hasOwnProperty(key)){
 							bodyDOM.style[key] = val[key];
@@ -129,9 +151,6 @@
 			})
 
 			return obj;
-
 		}
-
-
 
 })(window)

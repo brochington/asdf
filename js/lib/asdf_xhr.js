@@ -1,5 +1,3 @@
-console.log("asdf_xhr");
-
 (function (window, undefined, ns){
 	"use strict";
 	var ns = {},

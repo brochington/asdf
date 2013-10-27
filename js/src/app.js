@@ -70,7 +70,7 @@ should look something like this:
 */
 
 a.firstVar = "What's up?";
-console.log("This is how you get the value: ", a.firstVar());
+// console.log("This is how you get the value: ", a.firstVar());
 
 /*
 Let's start getting into some of the cool stuff. Let's create
@@ -88,7 +88,7 @@ In other words, anytime that a.test2 changes, so will a.test1.
 */
 
 a.test1 = a.test2;
-console.log("What's in a.test1?: ", a.test1());
+// console.log("What's in a.test1?: ", a.test1());
 
 /*
 I'll test the binding by updating a.test2, and we should see a.test1's
@@ -96,7 +96,7 @@ value change as well.
 */
 
 a.test2 = "testing the binding of liveVariables";
-console.log("New a.test1 value: ", a.test1());
+// console.log("New a.test1 value: ", a.test1());
 
 
 /*
@@ -110,7 +110,7 @@ a.newVar("num3", function(){
 	return totalNum;
 });
 
-console.log("what is num 3?: ", a.num3());
+// console.log("what is num 3?: ", a.num3());
 
 /*
 Notice how we are using liveVariables in the example above? we are
@@ -132,11 +132,11 @@ a.newVar("numToPx", function (value){
 	return value + "px";
 }, 300);
 
-console.log("What's in numToPx?: ", a.numToPx());
+// console.log("What's in numToPx?: ", a.numToPx());
 
 a.numToPx = 1234;
 
-console.log("Updated numToPx value is: ", a.numToPx());
+// console.log("Updated numToPx value is: ", a.numToPx());
 
 /*
   I'm messing around with getters/setters on liveVarables, though 
@@ -212,6 +212,19 @@ dream up in the future.
 
 Thanks for reading!
 */
+
+// binding a DOMobject and liveVariable
+
+a.newVar('testInnerText', 'this is some innerText');
+d.test_div_3.innerText  = a.testInnerText;
+
+a.testInnerText = "this is a test";
+
+
+a.newVar('testInnerHTML', '<strong>This is a test of some innerHTML</strong>');
+d.test_div_4.innerHTML = a.testInnerHTML;
+
+a.testInnerHTML = "<i>This is redo</i>";
 
 
 /*

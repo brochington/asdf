@@ -35,7 +35,7 @@
 
 			// keeping handling of computed properties with get/set separate for now. 
 			if(value.hasOwnProperty('get') && value.hasOwnProperty('set')){
-				console.log("looks like a get/set object...");
+				// console.log("looks like a get/set object...");
 				tempFunction.metaGetSetObject = {};
 
 				for(var key in value){

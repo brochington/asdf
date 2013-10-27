@@ -74,6 +74,27 @@
 		}
 	}
 
+	ns.updateDivNodeInnerText = function(params, passedThis, passedValue){
+		var el = document.getElementById(params.elementID);
+
+		if(!passedValue.metaValue && el.innerText !== passedValue){
+			el.innerText = passedValue;	
+		} else if(passedValue.metaValue && el.innerText !== passedValue.metaValue){
+			el.innerText = passedValue.metaValue;
+		}
+	}
+
+	ns.updateDivNodeInnerHTML = function(params, passedThis, passedValue){
+		console.log("here");
+		var el = document.getElementById(params.elementID);
+
+		if(!passedValue.metaValue && el.innerHTML !== passedValue){
+			el.innerHTML = passedValue;	
+		} else if(passedValue.metaValue && el.innerHTML !== passedValue.metaValue){
+			el.innerHTML = passedValue.metaValue;
+		}
+	}
+
 	ns.updateDivNodeCSS = function(params, passedThis, passedValue){
 		var el = document.getElementById(params.elementID);
 
